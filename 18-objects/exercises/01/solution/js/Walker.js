@@ -1,20 +1,5 @@
-/*
-const Walker = {
-  name: 'John Doe',
-  state: 'dead',
-  walk(speedInMph) {
-    return `${this.name} the ${this.state} walks with ${speedInMph} mph!`;
-  },
-  eat(foodName) {
-    return `${this.name} the ${this.state} eats ${foodName}!`;
-  },
-  speak(sound) {
-    return `${this.name} the ${this.state} says ${sound}!`;
-  },
-};
-*/
-
 // using classes
+/*
 class Walker {
   constructor(name = 'John Doe', state = 'dead') {
     this.name = name;
@@ -49,5 +34,46 @@ class Walker {
     this.name = `${this.firstName} ${ln}`;
   }
 }
+*/
+
+// using prototypes
+function Walker(name = 'John Doe', state = 'dead') {
+  this.name = name;
+  this.state = state;
+  Object.defineProperties(this, {
+    firstName: {
+      enumerable: true,
+      configurable: true,
+      get() {
+        return this.name.split(' ')[0];
+      },
+      set(fn) {
+        this.name = `${fn} ${this.lastName}`;
+      },
+    },
+    lastName: {
+      enumerable: true,
+      configurable: true,
+      get() {
+        return this.name.split(' ')[1];
+      },
+      set(ln) {
+        this.name = `${this.firstName} ${ln}`;
+      },
+    },
+  });
+}
+
+Walker.prototype.walk = function walk(speedInMph = 10) {
+  return `${this.name} the ${this.state} walks with ${speedInMph} mph!`;
+};
+
+Walker.prototype.eat = function eat(foodName = 'meat') {
+  return `${this.name} the ${this.state} eats ${foodName}!`;
+};
+
+Walker.prototype.speak = function speak(sound = 'grrrrrr') {
+  return `${this.name} the ${this.state} says ${sound}!`;
+};
 
 export default Walker;
